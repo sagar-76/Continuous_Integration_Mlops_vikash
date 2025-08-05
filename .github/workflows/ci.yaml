@@ -1,0 +1,46 @@
+name : CI Workflow
+# name is ci workflow
+
+# this flow is telling github action services 
+# ye bta  rha tab hi excute o jabe action push ho ya pull
+#means code push hua ho ya pulland on which branch  (main)
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+#inside jobs we tell ki kya jobs execute honge
+# hmne k hi btayi hai job which test
+# and inside test few rules are defining (ubantu latest vale pr run karao)
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    # steps to execute
+    #1 is name  (kuch bhi de skte ho mne checkout code)
+    # this tlll github actions
+    # the we have uses  
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+      # in this step hmne naam diya and uses m btaya ki python install kro
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.9'
+        # then next step is pip install dependencies and giving 
+        # the code to do that
+
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pytest streamlit
+      # next is run test
+
+    - name: Run tests
+      run: |
+        pytest _test.py
